@@ -12,10 +12,13 @@ jobs:
       - name: Checkout full repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history so the mirror is a complete copy
+          fetch-depth: 0
+          persist-credentials: false  # Don't let checkout override our PAT
 
       - name: Push mirror to SocialFont
         run: |
+          # Remove any credential helpers set by actions/checkout
+          git config --unset-all http.https://github.com/.extraheader || true
           git remote add mirror https://x-access-token:${{ secrets.SOCIALFONT_PAT }}@github.com/as-personal-projects/SocialFont.git
           git push mirror main --force
-          echo "✅ Successfully mirrored to SocialFont"
+          echo "Successfully mirrored to SocialFont"

@@ -5,7 +5,7 @@ $ErrorActionPreference = "Stop"
 
 $OriginUrl = "https://github.com/Adnanshahria/Facebook-Font-Formatter.git"
 $MirrorUrl = "https://github.com/as-personal-projects/SocialFont.git"
-$Branch    = "main"
+$Branch = "main"
 
 function Get-RemoteHead {
     param([string]$RepoUrl, [string]$BranchName)
@@ -14,7 +14,8 @@ function Get-RemoteHead {
         if ($LASTEXITCODE -ne 0) { return $null }
         $sha = ($output -split "\s+")[0]
         return $sha
-    } catch {
+    }
+    catch {
         return $null
     }
 }
@@ -37,14 +38,16 @@ Write-Host "------------------------------------------------------" -ForegroundC
 Write-Host -NoNewline "  Origin  (Facebook-Font-Formatter): "
 if ($originSha) {
     Write-Host $originSha -ForegroundColor White
-} else {
+}
+else {
     Write-Host "UNREACHABLE or branch not found" -ForegroundColor Red
 }
 
 Write-Host -NoNewline "  Mirror  (SocialFont):              "
 if ($mirrorSha) {
     Write-Host $mirrorSha -ForegroundColor White
-} else {
+}
+else {
     Write-Host "UNREACHABLE or branch not found" -ForegroundColor Red
 }
 
@@ -61,7 +64,8 @@ if ($originSha -eq $mirrorSha) {
     Write-Host "SYNCED -- Both repos point to the same commit on '$Branch'." -ForegroundColor Green
     Write-Host ""
     exit 0
-} else {
+}
+else {
     Write-Host "OUT OF SYNC -- The repos have different HEAD commits on '$Branch'." -ForegroundColor Red
     Write-Host "  This can happen if:" -ForegroundColor DarkGray
     Write-Host "    - The GitHub Actions mirror workflow has not run yet" -ForegroundColor DarkGray
