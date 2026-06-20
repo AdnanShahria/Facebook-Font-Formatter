@@ -1,0 +1,21 @@
+name: Mirror to SocialFont
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout full repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history so the mirror is a complete copy
+
+      - name: Push mirror to SocialFont
+        run: |
+          git remote add mirror https://x-access-token:${{ secrets.SOCIALFONT_PAT }}@github.com/as-personal-projects/SocialFont.git
+          git push mirror main --force
+          echo "✅ Successfully mirrored to SocialFont"
